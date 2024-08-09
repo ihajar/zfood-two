@@ -12,7 +12,7 @@ const useSignUp = () => {
     mutationFn: signUp,
     onSuccess: (data) => {
       setUser(data);
-      navigate("/");
+      navigate("/dashboard");
       console.log("Signup sucessful", data);
     },
     onError: (error) => {

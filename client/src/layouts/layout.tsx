@@ -13,8 +13,9 @@ function Layout({ children }: Props) {
         <Header />
         <Hero />
       </div>
-      <div className="container mx-auto flex-1 py-10  z-0">
+      <div className="container mx-auto flex-1 py-10 z-0">
         {children}
+        
       </div>
       <Footer />
     </div>

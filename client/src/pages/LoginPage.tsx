@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/api/users";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -35,10 +35,10 @@ const LoginPage: React.FC = () => {
         mutationFn: (data: LoginFormValues) => login(data),
         onSuccess: (data) => {
             setUser(data);
-            navigate('/');
+            navigate('/dashboard');
             console.log('Login Sucessful');
         },
-        onError: (err: Error) => {
+        onError: (err: any) => {
             console.error('Login failed:', err.message);
         }
     });
@@ -113,6 +113,14 @@ const LoginPage: React.FC = () => {
               >
                 {mutation.isPending ? "Logging in..." : "Login"}
               </Button>
+              {mutation.isError && (
+                <p className="mt-4 text-red-500">
+                  Login failed: {mutation.error?.message}
+                </p>
+              )}
+              {mutation.isSuccess && (
+                <p className="mt-4 text-green-500">Login successful!</p>
+              )}
             </form>
           </FormProvider>
           <div className="flex flex-row w-full py-4 gap-4">
@@ -127,8 +135,4 @@ const LoginPage: React.FC = () => {
 };
 
 export default LoginPage;
-
-
-
-
 
