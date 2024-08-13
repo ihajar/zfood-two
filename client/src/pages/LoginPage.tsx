@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { User } from "@/models/user";
 import useUser from "@/hooks/useUser";
 import { useAuth } from "@/contexts/AuthContext";
+import LoadingButton from "@/components/LoadingButton";
+import { toast } from "sonner";
 
 
 
@@ -37,9 +39,11 @@ const LoginPage: React.FC = () => {
             setUser(data);
             navigate('/dashboard');
             console.log('Login Sucessful');
+            toast.success('Login successful');
         },
         onError: (err: any) => {
             console.error('Login failed:', err.message);
+            toast.error(`Login failed: ${err.message}`);
         }
     });
 
@@ -53,7 +57,7 @@ const LoginPage: React.FC = () => {
       return <div>Loading user data...</div>;
     }
     if(user) {
-      navigate('/');
+      navigate('/dashboard');
       return null;
     }
     return (
@@ -106,13 +110,13 @@ const LoginPage: React.FC = () => {
                   </p>
                 )}
               </div>
-              <Button
+             {mutation.isPending ? <LoadingButton/> : <Button
                 type="submit"
                 className="mt-4 bg-green-700 text-white w-full"
                 disabled={isSubmitting || mutation.isPending}
               >
-                {mutation.isPending ? "Logging in..." : "Login"}
-              </Button>
+                {mutation.isPending ? 'Logging in ...' : 'Login'}
+              </Button>}
               {mutation.isError && (
                 <p className="mt-4 text-red-500">
                   Login failed: {mutation.error?.message}

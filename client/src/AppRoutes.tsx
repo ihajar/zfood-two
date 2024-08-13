@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import DashLayout from "./layouts/dashLayout";
-import DashboardPage from "./pages/DashboardPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const AppRoutes = () => {
   return (
@@ -20,10 +20,18 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route
-        path="/dashboard"
+        path="/dashboard/*"
         element={
           <DashLayout>
-            <DashboardPage />
+            <Routes>
+              {/* <Route path="/" element={<DashboardPage />} /> */}
+              <Route path="profile" element={<ProfilePage />} />
+              <Route path="orders" element={<div>Orders Section</div>} />
+              <Route
+                path="restaurants"
+                element={<div>Restaurants Section</div>}
+              />
+            </Routes>
           </DashLayout>
         }
       />

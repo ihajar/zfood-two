@@ -1,0 +1,1 @@
+export const cookieMaxAge = 60 * 60 * 1000; // 7days

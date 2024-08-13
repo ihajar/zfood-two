@@ -8,12 +8,18 @@ import {
   UserRound,
 } from "lucide-react";
 import { Button } from "./ui/button";
-import { Link } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const SidebarNav = () => {
   const [expanded, setExpanded] = useState(true);
+  // const [selectedSection, setSelectedSection] = useState<string | null>(null);
+  // const navigate = useNavigate();
 
+  // const handleSectionClick = (section: string) => {
+  //   setSelectedSection(section);
+  //   window.location.hash = `#${section}`;
+  // }
   return (
     <aside className="h-screen ">
       <nav className="h-full flex-col bg-[#122D1D] border-r shadow-sm p-4 pb-2 flex justify-between items-center">
@@ -28,58 +34,29 @@ const SidebarNav = () => {
         )}
 
         <ul className="flex flex-col gap-10 px-3">
-          <li className="relative items-center py-2 px-3 my-1 cursor-pointer transition-colors rounded-md active:bg-[#D9ED7D] flex flex-row gap-4">
-            <Link to="/">
-              <HomeIcon className="w-7 h-7 text-[#F8F6F2] active:text-[#090A0B]" />
-            </Link>
-            {expanded ? (
-              <span className="text-[#F8F6F2] font-bold text-xl active:text-[#090A0B]">
-                Back Home
-              </span>
-            ) : (
-              ""
-            )}
-          </li>
+          <NavLink to="/dashboard/home" className={({ isActive }) => 
+            `relative items-center py-2 px-3 my-1 cursor-pointer transition-colors flex flex-row gap-3 rounded-md ${isActive ? "bg-[#D9ED7D]" : ""}`}>
+            <HomeIcon className="w-7 h-7 text-[#F8F6F2]" />
+            {expanded && <span className="font-bold text-xl text-[#F8F6F2]" >Home</span>}
+          </NavLink>
 
-          <li className="relative items-center py-2 px-3 my-1 cursor-pointer transition-colors rounded-md active:bg-[#D9ED7D] flex flex-row gap-4">
-            <Link to="">
-              <Pizza className="w-7 h-7 text-[#F8F6F2] active:text-[#090A0B]" />
-            </Link>
-            {expanded ? (
-              <span className="text-[#F8F6F2] font-bold text-xl active:text-[#090A0B]">
-                My Orders
-              </span>
-            ) : (
-              ""
-            )}
-          </li>
+          <NavLink to="/dashboard/orders" className={({ isActive }) => 
+            `relative items-center py-2 px-3 my-1 cursor-pointer transition-colors flex flex-row gap-3 rounded-md ${isActive ? "bg-[#D9ED7D]" : ""}`}>
+            <Pizza className="w-7 h-7 text-[#F8F6F2]" />
+            {expanded && <span className="font-bold text-xl text-[#F8F6F2]" >Orders</span>}
+          </NavLink>
 
-          <li className="relative items-center py-2 px-3 my-1 cursor-pointer transition-colors rounded-md active:bg-[#D9ED7D] flex flex-row gap-4">
-            <Link to="">
-              <UserRound className="w-7 h-7 text-[#F8F6F2] active:text-[#090A0B]" />
-            </Link>
-            {expanded ? (
-              <span className="text-[#F8F6F2] font-bold text-xl active:text-[#090A0B]">
-                {" "}
-                My Profile
-              </span>
-            ) : (
-              ""
-            )}
-          </li>
+          <NavLink to="/dashboard/profile" className={({ isActive }) => 
+            `relative items-center py-2 px-3 my-1 cursor-pointer transition-colors flex flex-row gap-3 rounded-md ${isActive ? "bg-[#D9ED7D]" : ""}`}>
+            <UserRound className="w-7 h-7 text-[#F8F6F2]" />
+            {expanded && <span className="font-bold text-xl text-[#F8F6F2]">Profile</span>}
+          </NavLink>
 
-          <li className="relative items-center py-2 px-3 my-1 cursor-pointer transition-colors rounded-md active:bg-[#D9ED7D] flex flex-row gap-4">
-            <Link to="/">
-              <Store className="w-7 h-7 text-[#F8F6F2] active:text-[#090A0B]" />
-            </Link>
-            {expanded ? (
-              <span className="text-[#F8F6F2] font-bold text-xl active:text-[#090A0B]">
-                My Restaurants
-              </span>
-            ) : (
-              ""
-            )}
-          </li>
+          <NavLink to="/dashboard/restaurants" className={({ isActive }) => 
+            `relative items-center py-2 px-3 my-1 cursor-pointer transition-colors flex flex-row gap-3 rounded-md ${isActive ? "bg-[#D9ED7D]" : ""}`}>
+            <Store className="w-7 h-7 text-[#F8F6F2]" />
+            {expanded && <span className="font-bold text-xl text-[#F8F6F2]">Restaurants</span>}
+          </NavLink>
         </ul>
         <Button
           onClick={() => setExpanded((curr) => !curr)}

@@ -52,6 +52,9 @@ const MainNav: React.FC = () => {
               <NavigationMenuTrigger className={cn("outline-none border-none bg-transparent text-white ")}></NavigationMenuTrigger>
               <NavigationMenuContent className={cn("flex flex-col gap-3 p-4 border-none outline-none")}>
                 <NavigationMenuLink className={cn("hover:bg-[#F4FADB] p-2 rounded-md")}>
+                  <Link to='/dashboard' className="">Dashboard</Link>
+                </NavigationMenuLink>
+                <NavigationMenuLink className={cn("hover:bg-[#F4FADB] p-2 rounded-md")}>
                   <Link to='' className="">Profile</Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink className={cn("hover:bg-[#F4FADB] p-2 rounded-md")}>

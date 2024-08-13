@@ -1,56 +1,7 @@
-// import { getLoggedInUser } from "@/api/users";
-// import { User } from "@/models/user";
-// import React, { createContext, useContext, useEffect, useState } from "react";
-// interface AuthContextType {
-//     user: User | null;
-//     isAuthenticated: boolean;
-//     loading: boolean;
-//     setUser: (user: User | null) => void;
-//     setIsAuthenticated: (isAuthenticated: boolean) => void;
-// }
-
-// const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// export const AuthProvider: React.FC<{ children: React.ReactNode}> = ({ children }) => {
-//     const [user, setUser] = useState<User | null>(null);
-//     const [loading, setLoading] = useState(true);
-//     const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-//     useEffect(() => {
-//         const fetchUser = async() => {
-//             try {
-//                 const loggedInUser = await getLoggedInUser();
-//                 setUser(loggedInUser);
-//                 setIsAuthenticated(true);
-//             } catch {
-//                 setUser(null);
-//                 setIsAuthenticated(false);
-//             } finally {
-//                 setLoading(false);
-//             }
-//         };
-//         fetchUser();
-//     }, []);
-//     return (
-//         <AuthContext.Provider value={{ user, isAuthenticated, loading, setUser, setIsAuthenticated }}>
-//             {children}
-//         </AuthContext.Provider>
-//     )
-// }
-
-// export const useAuth = () => {
-//     const context = useContext(AuthContext);
-//     if(context === undefined) {
-//         throw new Error('useAuth must ne used within an AuthProvider');
-//     }
-//     return context;
-// }
-
-// With React QUERY
-
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { getLoggedInUser, logout } from '@/api/users';
-import { User } from '@/models/user';
+import { User } from '@/models/user';;
+import { toast } from 'sonner';
 
 // Define the type for the context value
 interface AuthContextType {
@@ -88,8 +39,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
             await logout();
             setUser(null);
+            toast.success('Logged out successfully')
         } catch (error) {
             console.error('Logout error:', error);
+            toast.error('Failed to logout out, please try again');
         }
     }
 

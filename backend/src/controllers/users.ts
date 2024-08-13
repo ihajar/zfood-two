@@ -3,6 +3,21 @@ import createHttpError from "http-errors";
 import UserModel from "../models/user";
 import brcypt from "bcrypt";
 import mongoose, { Types } from "mongoose";
+import cloudinary from "cloudinary";
+
+
+const uploadImage = async(file: Express.Multer.File) => {
+    try {
+        const base64Image = Buffer.from(file.buffer).toString('base64');
+        const dataURI = `data:${file.mimetype};base64,${base64Image}`;
+
+        const uploadResponse = await cloudinary.v2.uploader.upload(dataURI);
+        return uploadResponse.secure_url;
+    } catch (error) {
+        console.error('Error uploading image to cloudinary', error);
+        throw new Error('Image upload failed')
+    }
+}
 
 
 
@@ -110,26 +125,22 @@ export const logout: RequestHandler = async(req, res, next) => {
     })
 };
 
-interface UpdateUserParams {
-    userId: string,
-}
 
 interface updateUserBody {
     username?: string,
     email?: string,
     password?: string,
-    profilePic?: string, 
     address?: string,
     city?: string,
     country?: string,
 }
 
-export const updateUser: RequestHandler<UpdateUserParams, unknown, updateUserBody, unknown> = async(req, res, next) => {
-    const authenticatedUserId = req.session.userId as string | undefined;
-    const userId = req.params.userId;
+export const updateUser: RequestHandler<unknown, unknown, updateUserBody, unknown> = async(req, res, next) => {
+    const authenticatedUserId = req.session.userId as mongoose.Types.ObjectId | undefined;
+    const userId = req.session.userId;
 
     // extract update fields:
-    const { username, email, password, profilePic, address, city, country } = req.body;
+    const { username, email, password, address, city, country } = req.body;
 
     try {
         if(!authenticatedUserId) {
@@ -147,10 +158,16 @@ export const updateUser: RequestHandler<UpdateUserParams, unknown, updateUserBod
         if(username) user.username = username;
         if(email) user.email = email;
         if(password) user.password = await brcypt.hash(password, 10);
-        if(profilePic) user.profilePic = profilePic;
+        // if(profilePic) user.profilePic = profilePic;
         if(address) user.address = address;
         if(city) user.city = city;
         if(country) user.country = country;
+
+        // handle profile pic upload
+        if(req.file) {
+            const imageUrl = await uploadImage(req.file as Express.Multer.File);
+            user.profilePic = imageUrl;
+        }
 
         const updatedUser = await user.save();
         // const updatedUser = await UserModel.findByIdAndUpdate(userId).exec();

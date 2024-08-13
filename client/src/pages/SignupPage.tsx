@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import useSignUp from "@/hooks/useSignUp";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import LoadingButton from "@/components/LoadingButton";
 
 
 
@@ -76,13 +77,13 @@ const SignupPage: React.FC = () => {
                                 <p id="password-error" className="text-red-500 text-sm">{errors.password.message}</p>
                             )}
                         </div>
-                        <Button
+                        {mutation.isPending ? <LoadingButton/> : <Button
                             type="submit"
                             className="mt-4 bg-green-700 text-white w-full"
                             disabled={mutation.isPending}
                         >
                             {mutation.isPending ? 'Signing Up...' : 'Sign Up'}
-                        </Button>
+                        </Button>}
                         {mutation.isError && (
                             <p className="mt-4 text-red-500">Signup failed: {mutation.error?.message}</p>
                         )}
