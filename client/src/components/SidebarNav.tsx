@@ -2,34 +2,32 @@ import {
   ChevronFirst,
   ChevronLast,
   HomeIcon,
-  LogOutIcon,
   Pizza,
   Store,
   UserRound,
 } from "lucide-react";
 import { Button } from "./ui/button";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 
 const SidebarNav = () => {
   const [expanded, setExpanded] = useState(true);
-  // const [selectedSection, setSelectedSection] = useState<string | null>(null);
-  // const navigate = useNavigate();
 
-  // const handleSectionClick = (section: string) => {
-  //   setSelectedSection(section);
-  //   window.location.hash = `#${section}`;
-  // }
   return (
     <aside className="h-screen ">
       <nav className="h-full flex-col bg-[#122D1D] border-r shadow-sm p-4 pb-2 flex justify-between items-center">
         {expanded ? (
           <h2 className="font-title font-bolder text-[#F8F6F2] text-2xl md:text-4xl">
-            ZFood.
+            <Link to='/'>
+              ZFood.
+            </Link>
+            
           </h2>
         ) : (
           <h2 className="font-title font-bolder text-[#F8F6F2] text-2xl md:text-4xl">
-            ZF
+            <Link to='/'>
+              ZF
+            </Link>
           </h2>
         )}
 
